@@ -1,0 +1,237 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    color: #000;
+    background: #fff;
+}
+img{    
+    border: none;
+    vertical-align: middle;
+}
+.container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotate(90deg);
+    overflow: hidden;
+}
+.scene{
+
+}
+.bg{
+    display: flex;
+    display: -webkit-flex;
+}
+.adv{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 16px;
+    color: #d3f3db;
+}
+.last{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+.last .text{
+    opacity: 0;
+    visibility: hidden;
+    width: 959px;
+    /*height: 225px;*/
+    height: 0;
+    background: url(../img/txt.png) no-repeat;
+    transition: all 1s ease 2s;
+}
+.last .meilixiangcun{
+    overflow: hidden;
+    width: 620px;
+    height: 285px;
+    background: url(../img/meilixiangcun.png) no-repeat;
+    transition: all 1s ease 2s;
+}
+.last.active .text{
+    opacity: 1;
+    visibility: visible;
+    height: 225px;
+}
+.last.active .meilixiangcun{
+    visibility: hidden;
+    height: 0;
+    opacity: 0;
+}
+.last .btns{
+    margin-top: 40px;
+}
+.last .btns a{
+    display: inline-block;
+    margin: 0 5px;
+    width: 280px;
+    height: 66px;
+    background: url(../img/btn.png) no-repeat;
+    text-indent: 99999px;
+}
+.last .btns a:first-child{
+    background-position: 0 -66px;
+}
+.ele{
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+.ele > div{
+    position: absolute;
+}
+.bird1{
+    left: 160px;
+    top: 130px;
+    width: 104px;
+    height: 88px;
+    background: url(../img/bird1.png);
+}
+.bird2{
+    left: 350px;
+    top: 130px;
+    width: 92px;
+    height: 82px;
+    background: url(../img/bird2.png);
+}
+.bird3{
+    left: 1295px;
+    top: 215px;
+    width: 42px;
+    height: 27px;
+    background: url(../img/bird3.png);
+}
+.bird4{
+    left: 1360px;
+    top: 255px;
+    width: 41px;
+    height: 33px;
+    background: url(../img/bird4.png);
+}
+.bird5{
+    left: 1400px;
+    top: 190px;
+    width: 31px;
+    height: 56px;
+    background: url(../img/bird5.png);
+}
+.bird6{
+    left: 2105px;
+    top: 100px;
+    width: 78px;
+    height: 77px;
+    background: url(../img/bird6.png);
+}
+.bird7{
+    left: 2180px;
+    top: 205px;
+    width: 111px;
+    height: 54px;
+    background: url(../img/bird7.png);
+}
+.bird8{
+    left: 7275px;
+    top: 240px;
+    width: 35px;
+    height: 22px;
+    background: url(../img/bird8.png);
+}
+.bird9{
+    left: 7305px;
+    top: 215px;
+    width: 42px;
+    height: 27px;
+    background: url(../img/bird9.png);
+}
+.bird10{
+    left: 36035px;
+    top: 155px;
+    width: 53px;
+    height: 56px;
+    background: url(../img/bird10.png);
+}
+.bird11{
+    left: 36138px;
+    top: 200px;
+    width: 85px;
+    height: 65px;
+    background: url(../img/bird11.png);
+}
+.people1{
+    left: 5490px;
+    top: 0;
+    width: 348px;
+    height: 640px;
+    background: url(../img/people1.png);   
+}
+.people2{
+    left: 8205px;
+    top: 280px;
+    width: 394px;
+    height: 380px;
+    background: url(../img/people2.png);   
+}
+.people3{
+    left: 14590px;
+    /*top: 410px;*/
+    top: 210px;
+    width: 288px;
+    height: 212px;
+    background: url(../img/people3.png);   
+}
+.people4{
+    left: 19800px;
+    top: 345px;
+    width: 198px;
+    height: 294px;
+    background: url(../img/people4.png);   
+}
+.people5{
+    left: 33925px;
+    top: 115px;
+    width: 730px;
+    height: 527px;
+    background: url(../img/people5.png);   
+}
+.bird1{
+    animation: bird1 7s linear both infinite;
+}
+.bird2{
+    animation: bird2 6s 3s linear both infinite;
+}
+@keyframes bird1 {
+    0% {
+        transform: translate3d(-260px,300px,0);
+    }
+    to {
+        transform: translate3d(120px,-220px,0);
+    }
+}
+@keyframes bird2{
+    from{
+        transform: translate3d(-432px,390px,0);
+    }
+    to{
+        transform: translate3d(0,-210px,0)
+    }
+}
