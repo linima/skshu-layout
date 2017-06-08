@@ -21,17 +21,18 @@ img{
 }
 .container{
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%) rotate(90deg);
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
     overflow: hidden;
 }
 .scene{
-
+    position: absolute;
+    width: 37640px;
+    left: 0;
+    right: 0;
 }
-.bg{
-    display: flex;
-    display: -webkit-flex;
+.bg > div{
+    float: left;
 }
 .adv{
     position: absolute;
@@ -42,22 +43,30 @@ img{
 }
 .last{
     display: flex;
+    display: -webkit-flex;
     flex-direction: column;
+    -webkit-flex-direction: column;
     align-items: center;
+    -webkit-align-items: center;
     justify-content: center;
+    -webkit-justify-content: center;
     position: absolute;
-    left: 0;
+    overflow: hidden;
     top: 0;
-    bottom: 0;
+    left: 0;
+    transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0);
 }
 .last .text{
     opacity: 0;
     visibility: hidden;
-    width: 959px;
+    width: 100%;
     /*height: 225px;*/
     height: 0;
-    background: url(../img/txt.png) no-repeat;
+    background: url(../img/txt.png) center no-repeat;
+    background-size: contain;
     transition: all 1s ease 2s;
+    -webkit-transition: all 1s ease 2s;
 }
 .last .meilixiangcun{
     overflow: hidden;
@@ -65,6 +74,7 @@ img{
     height: 285px;
     background: url(../img/meilixiangcun.png) no-repeat;
     transition: all 1s ease 2s;
+    -webkit-transition: all 1s ease 2s;
 }
 .last.active .text{
     opacity: 1;
@@ -90,14 +100,12 @@ img{
 .last .btns a:first-child{
     background-position: 0 -66px;
 }
-.ele{
+.bp{
     position: absolute;
     left: 0;
     top: 0;
-    bottom: 0;
-    right: 0;
 }
-.ele > div{
+.bp > div{
     position: absolute;
 }
 .bird1{
@@ -136,14 +144,14 @@ img{
     background: url(../img/bird5.png);
 }
 .bird6{
-    left: 2105px;
+    left: 23934px;
     top: 100px;
     width: 78px;
     height: 77px;
     background: url(../img/bird6.png);
 }
 .bird7{
-    left: 2180px;
+    left: 24260px;
     top: 205px;
     width: 111px;
     height: 54px;
@@ -213,25 +221,95 @@ img{
     height: 527px;
     background: url(../img/people5.png);   
 }
-.bird1{
-    animation: bird1 7s linear both infinite;
+.locktip{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #fff;
+    background: rgba(0,0,0,.8);
+    z-index: 9999;
 }
-.bird2{
-    animation: bird2 6s 3s linear both infinite;
+.locktip div{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%,-50%) rotate(90deg);
+    -webkit-transform: translate(-50%,-50%) rotate(90deg);
 }
-@keyframes bird1 {
-    0% {
-        transform: translate3d(-260px,300px,0);
-    }
-    to {
-        transform: translate3d(120px,-220px,0);
-    }
+.locktip i{
+    display: block;
+    margin: auto;
+    width: 64px;
+    height: 118px;
+    background: url(../img/mobile-icon.png) no-repeat;
 }
-@keyframes bird2{
-    from{
-        transform: translate3d(-432px,390px,0);
-    }
-    to{
-        transform: translate3d(0,-210px,0)
-    }
+.locktip p{
+    margin-top: 15px;
+    color: #d7f3dd;
+    font-size: 24px;
+}
+.sharetip{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #fff;
+    background: rgba(0,0,0,.8);
+    visibility: hidden;
+    opacity: 0;
+    z-index: -1;    
+    transform: translate3d(0, 0, 100px);
+    -webkit-transform: translate3d(0, 0, 100px); 
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+.sharetip.active{
+    opacity: 1;
+    z-index: 900;
+    visibility: visible;
+}
+.sharetip .icon{
+    position: absolute;
+    left: 28px;
+    top: 35px;
+    width: 364px;
+    height: 283px;
+    background: url(../img/sharetip.png) no-repeat;
+}
+.sharetip .close{
+    position: absolute;
+    top: 35px;
+    right: 35px;
+    width: 42px;
+    height: 39px;
+    background: url(../img/close.png) no-repeat;
+}
+.audio{
+    position: absolute;
+    z-index: 500;
+    left: 20px;
+    top: 20px;
+    width: 52px;
+    height: 52px;
+    background-image: url(../img/audio.png);
+    background-position: -52px 0;
+    transform: translate3d(0,0,50px);
+    -webkit-transform: translate3d(0,0,50px);
+}
+.audio.on{
+    background-position: 0 0;
+    animation: rotate 1.5s linear infinite;
+}
+@keyframes rotate {
+    from { transform: rotate(0); transform-origin: center; }
+    to { transform: rotate(360deg); transform-origin: center; }
+}
+@-webkit-keyframes rotate {
+    from { -webkit-transform: rotate(0); -webkit-transform-origin: center; }
+    to { -webkit-transform: rotate(360deg); -webkit-transform-origin: center; }
 }

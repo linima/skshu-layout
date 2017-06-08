@@ -1,4 +1,4 @@
-       <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,33 +11,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <title>layout</title>
     <link rel="stylesheet" href="css/style.css">
-    <script>
-        function fixViewport(type, width) {
-            var docEl = document.documentElement;
-            var metaEl = document.querySelector('meta[name="viewport"]');
-            var clientWidth = Math.min(docEl.clientWidth, docEl.clientHeight);
-            var scale, content;
-            
-            switch (type) {
-                case 'fixed':
-                    scale = clientWidth / width;
-                    content = 'width=' + width + ',initial-scale=' + scale + ',maximum-scale=' + scale +
-                        ',minimum-scale=' + scale;
-                    break;
-                case 'rem':
-                    var dpr = window.devicePixelRatio || 1;
-                    docEl.setAttribute('data-dpr', dpr);
-                    docEl.style.fontSize = 100 * (clientWidth * dpr / width) + "px";
-
-                    scale = 1 / dpr;
-                    content = 'width=' + clientWidth * dpr + ',initial-scale=' + scale + ',maximum-scale=' + scale +
-                        ', minimum-scale=' + scale;
-                    break;
-            }
-            metaEl.setAttribute('content', content);
-        }
-        fixViewport('fixed', 640);
-    </script>
+    <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+    <script src="js/app.js"></script>
 </head>
 <body>
     <div class="container" id="container">
@@ -47,7 +22,7 @@
                 <div><img src="img/bg2.jpg"></div>
                 <div><img src="img/bg3.jpg"></div>
             </div>
-            <div class="ele">
+            <div class="bp">
                 <div class="bird1"></div>
                 <div class="bird2"></div>
                 <div class="bird3"></div>
@@ -70,13 +45,18 @@
                 <div class="meilixiangcun"></div>
                 <div class="text"></div>
                 <div class="btns">
-                    <a title="为老家出份力"></a>
-                    <a title="给小伙伴看看"></a>
+                    <a title="为老家出份力" href="http://www.skshu.com.cn/"></a>
+                    <a title="给小伙伴看看" id="shareBtn"></a>
                 </div>
             </div>
         </div>
+        <div class="sharetip" id="sharetip">
+            <div class="close"></div>
+            <div class="icon"></div>
+        </div>
+        <div class="audio on"><audio src="media/bgm.mp3" preload="auto" loop="loop" id="audio"></audio></div>
     </div>
-    <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
-    <script src="js/app.js"></script>
+    <div class="locktip" id="locktip"><div><i></i><p>请锁定屏幕为竖屏以获得最佳体验</p></div></div>
+
 </body>
 </html>
