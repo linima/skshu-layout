@@ -24,11 +24,73 @@ var processor = {
 	    
 	    metaEl.setAttribute('content', content);
 	},
-	locktip: function(){
+	doLoad: function(){
+	    var _this = this;
+	    var arrImg = [
+	    'img/bg1.jpg',
+	    'img/bg2.jpg',
+	    'img/bg3.jpg',
+	    'img/btn.png',
+	    'img/meilixiangcun.png',
+	    'img/txt.png',
+	    'img/audio.png',
+	    'img/loading.png'];
+	    var total = arrImg.length, index = 0;
+
+	    function loadImage(url, callback){
+	        var img = new Image();
+	        img.src = url;
+	        
+	        if (img.complete) {
+	            callback();
+	            return;
+	        }
+	        img.onload = function () {
+	            callback();
+	            return;
+	        }
+	        img.onerror = function () {
+	            callback();
+	            return;
+	        }
+	    }
+
+	    function success(){
+	        if(index < total){
+	            index++;
+	        }
+	        // var num = parseInt(index/total * 100);
+	        // var progress = document.getElementById('progress');
+	        // var percent = progress.firstChild;
+	        // percent.innerHTML = num+' %';
+	        if(index == total){
+	            setTimeout(function(){
+	            	$('#loading').remove();
+	            	//判断微信中打开
+	            	var ua = navigator.userAgent.toLowerCase();
+	            	if(ua.match(/MicroMessenger/i)=="micromessenger") {
+	            	    document.addEventListener("WeixinJSBridgeReady", function () {  
+	            	    	_this.initMusic();
+	            	    }, false);
+	            	} else {
+	            	    _this.initMusic();
+	            	}
+	            	
+	                _this.orientation();
+	            },500)
+	            clearInterval(timeImage);
+	        }
+	    }
+
+	    var timeImage = setInterval(function(){
+	        loadImage(arrImg[index], success);
+	    }, 100);
+	},
+	orientation: function(){
 		var _this = this;
-		$('#locktip').on('click', function(){
-			$(this).remove();
-			_this.initMusic();
+		_this.initPage();
+		$(window).on('resize', function(){
+			_this.initPage();
 		})
 	},
 	sharetip: function(){
@@ -43,7 +105,6 @@ var processor = {
 	},
 	initPage: function(){
 		var _this = this;
-		_this.locktip();
 		_this.sharetip();
 
 		var w = $(window).width(),
@@ -54,14 +115,21 @@ var processor = {
 		    pageH = $scene.height();
 		$container.css({
 		    width: h,
-		    height: w,
-		    transformOrigin: w/2+'px'+' '+w/2+'px'
+		    height: w
 		})
 		$last.css({
 			width: h,
 			height: w,
 			left: pageH-h
 		})
+
+		$('#skip').on('click', function(){
+			$scene.css({
+				'transform': 'translate3d('+ -(pageH-h) +'px, 0, 0)'
+			});
+			$last.addClass('active');
+		})
+
 		//开始出现的位置
 		var bird3 = $('.bird3').position().top;
 		var bird4 = $('.bird4').position().top;
@@ -79,29 +147,36 @@ var processor = {
 		var people5 = $('.people5').position().top;
 
 
-		var startY, distance, offsetY = 0;
+		var startY, distance, translateX;
 		$container.on('touchstart', function(e){
 			var touch = e.touches[0];
-			startY = Number(touch.pageY)-offsetY;
+			startY = Number(touch.pageY);
+			translateX = $scene.css('transform').split(',')[0].replace('translate3d(','').replace('px','');
+			if(translateX == 'none'){
+				translateX = 0;
+			}else{
+				translateX = Number(translateX);
+			}
 		})
 		$container.on('touchmove', function(e){
 			e.preventDefault();
 			var touch = e.touches[0];
 			var moveY = Number(touch.pageY);
-			distance = moveY-startY;
+			distance = moveY-startY+translateX;
+			console.log(distance)
 			if(distance > 0){
 				distance = 0;
 			}
-			if(distance < -(pageH-h)/2){
-				distance = -(pageH-h)/2;
+			if(distance <= -(pageH-h)){
+				distance = -(pageH-h);
 				$last.addClass('active');
 			}
 			$scene.css({
-				'transform': 'translate3d('+distance*2+'px, 0, 0)'
+				'transform': 'translate3d('+distance+'px, 0, 0)'
 			});
 
+			var absDistance = Math.abs(distance);
 			//开始视觉差移动
-			var absDistance = Math.abs(distance*2);
 			var transX = function(pos){
 				return absDistance-(pos-h);
 			}
@@ -177,15 +252,13 @@ var processor = {
 				})
 			}
 		})
-		$container.on('touchend', function(){
-			offsetY = distance;
-		})
 	},
-	initMusic: function(){
+	initMusic: function(url){
 		var $audio = $('#audio');
 		var $audioParent = $audio.parent();
 		$audio[0].play();
-		$audioParent.on('click', function(){
+		$audioParent.on('click', function(e){
+			e.stopPropagation();
 		    if(!$audio[0].paused){
 		        $audio[0].pause();
 		        $audioParent.removeClass('on');
@@ -199,5 +272,5 @@ var processor = {
 
 $(function(){
 	processor.fixViewport('fixed', 640);
-	processor.initPage();
+	processor.doLoad();
 })

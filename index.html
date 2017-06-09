@@ -15,6 +15,7 @@
     <script src="js/app.js"></script>
 </head>
 <body>
+    <div class="loading" id="loading"><i></i></div>
     <div class="container" id="container">
         <div class="scene" id="scene">
             <div class="bg">
@@ -54,9 +55,9 @@
             <div class="close"></div>
             <div class="icon"></div>
         </div>
-        <div class="audio on"><audio src="media/bgm.mp3" preload="auto" loop="loop" id="audio"></audio></div>
+        <div class="skip" id="skip"></div>
+        <div class="audio on"><audio src="media/bgm.mp3" preload="auto" autoplay="autoplay" loop="loop" id="audio"></audio></div>
     </div>
-    <div class="locktip" id="locktip"><div><i></i><p>请锁定屏幕为竖屏以获得最佳体验</p></div></div>
-
+    <div class="locktip" id="locktip"><i></i><p>请锁定屏幕为竖屏以获得最佳体验</p></div>
 </body>
 </html>

@@ -21,9 +21,33 @@ img{
 }
 .container{
     position: absolute;
-    transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    -webkit-transform: translate(-50%, -50%) rotate(90deg);
     overflow: hidden;
+}
+.loading{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999;
+    background: #d7f3dd;
+}
+.loading i{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -19px;
+    margin-left: -19px;
+    display: block;
+    width: 38px;
+    height: 38px;
+    background: url(../img/loading.png) no-repeat;
+    animation: rotate 1s linear both infinite;
+    -webkit-animation: rotate 1s linear both infinite;
 }
 .scene{
     position: absolute;
@@ -39,7 +63,7 @@ img{
     left: 0;
     bottom: 0;
     font-size: 16px;
-    color: #d3f3db;
+    color: #d7f3dd;
 }
 .last{
     display: flex;
@@ -228,21 +252,19 @@ img{
     right: 0;
     bottom: 0;
     color: #fff;
-    background: rgba(0,0,0,.8);
+    background: #000;
     z-index: 9999;
-}
-.locktip div{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    text-align: center;
-    transform: translate(-50%,-50%) rotate(90deg);
-    -webkit-transform: translate(-50%,-50%) rotate(90deg);
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
 }
 .locktip i{
     display: block;
-    margin: auto;
     width: 64px;
     height: 118px;
     background: url(../img/mobile-icon.png) no-repeat;
@@ -277,8 +299,8 @@ img{
     position: absolute;
     left: 28px;
     top: 35px;
-    width: 364px;
-    height: 283px;
+    width: 724px;
+    height: 299px;
     background: url(../img/sharetip.png) no-repeat;
 }
 .sharetip .close{
@@ -294,16 +316,26 @@ img{
     z-index: 500;
     left: 20px;
     top: 20px;
-    width: 52px;
-    height: 52px;
+    width: 55px;
+    height: 48px;
     background-image: url(../img/audio.png);
-    background-position: -52px 0;
+    background-position: -55px 0;
     transform: translate3d(0,0,50px);
     -webkit-transform: translate3d(0,0,50px);
 }
 .audio.on{
     background-position: 0 0;
     animation: rotate 1.5s linear infinite;
+}
+.skip{
+    position: absolute;
+    width: 94px;
+    height: 39px;
+    top: 20px;
+    right: 20px;
+    background: url(../img/skip.png) no-repeat;
+    transform: translate3d(0,0,50px);
+    -webkit-transform: translate3d(0,0,50px);
 }
 @keyframes rotate {
     from { transform: rotate(0); transform-origin: center; }
@@ -312,4 +344,17 @@ img{
 @-webkit-keyframes rotate {
     from { -webkit-transform: rotate(0); -webkit-transform-origin: center; }
     to { -webkit-transform: rotate(360deg); -webkit-transform-origin: center; }
+}
+/* portrait */
+@media screen and (orientation:portrait) {
+    .locktip{
+        display: none;
+    }
+}
+/* landscape */
+@media screen and (orientation:landscape) {
+    .locktip{
+        display: flex;
+        display: -webkit-flex;
+    }
 }
