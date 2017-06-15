@@ -107,8 +107,8 @@ var processor = {
 		//自动播放
 		var timer = null;
 		function autoPlay(){
-			// var distance = Number($scene.css('transform').split(',')[4]);
-			var distance = Number($scene.offset().top);
+			var distance = Number($scene.css('transform').split(',')[4]);
+			// var distance = Number($scene.offset().top);
 			timer = setInterval(function(){
 				distance -= 2;
 				progress(distance);
@@ -136,8 +136,8 @@ var processor = {
 				scenePause();
 			}
 			$scene.css({
-				// 'transform': 'translate3d('+ dis +'px, 0, 0)'
-				'left': dis
+				'transform': 'translate3d('+ dis +'px, 0, 0)'
+				// 'left': dis
 			});
 			$('#progress .percent').css('width', Math.abs(dis/boundary*100)+'%');
 		}
@@ -189,7 +189,7 @@ var processor = {
 			}
 			if(absDistance > (bird7-h) && absDistance < bird7){
 				$('.bird7').css({
-					'transform': 'translate3d('+ -transX(bird7) +'%, 0, 0)'
+					'transform': 'translate3d('+ -transX(bird7)/5 +'%, 0, 0)'
 				})
 			}
 			if(absDistance > (bird8-h) && absDistance < bird8){
@@ -209,7 +209,7 @@ var processor = {
 			}
 			if(absDistance > (bird11-h) && absDistance < bird11){
 				$('.bird11').css({
-					'transform': 'translate3d('+ -transX(bird11) +'%, 0, 0)'
+					'transform': 'translate3d('+ -transX(bird11)/5 +'%, 0, 0)'
 				})
 			}
 			if(absDistance > (people1-h) && absDistance < people1){
@@ -254,12 +254,14 @@ var processor = {
 			}
 			if(absDistance > (moon-h) && absDistance < moon){
 				$('.moon').css({
-					'transform': 'translate3d('+ transX(moon) +'%, 0, 0)'
+					'transform': 'translate3d('+ transX(moon)/2 +'%, 0, 0)'
 				})
 			}
 		}
 
-		autoPlay();
+		setTimeout(function(){
+			autoPlay();
+		}, 2000);
 		//播放控制
 		$('#control').on('click', function(e){
 			e.stopPropagation();
@@ -284,8 +286,8 @@ var processor = {
 		$container.on('touchstart', function(e){
 			var touch = e.touches[0];
 			startY = Number(touch.pageY);
-			// translateX = Number($scene.css('transform').split(',')[4]);
-			translateX = Number($scene.offset().top);
+			translateX = Number($scene.css('transform').split(',')[4]);
+			// translateX = Number($scene.offset().top);
 		})
 		$container.on('touchmove', function(e){
 			e.preventDefault();
