@@ -1,40 +1,18 @@
 var processor = {
-	fixViewport: function (type, width) {
-	    var docEl = document.documentElement;
-	    var metaEl = document.querySelector('meta[name="viewport"]');
-	    var clientWidth = Math.min(docEl.clientWidth, docEl.clientHeight);
-	    var scale, content;
-	    
-	    switch (type) {
-	        case 'fixed':
-	            scale = clientWidth / width;
-	            content = 'width=' + width + ',initial-scale=' + scale + ',maximum-scale=' + scale +
-	                ',minimum-scale=' + scale;
-	            break;
-	        case 'rem':
-	            var dpr = window.devicePixelRatio || 1;
-	            docEl.setAttribute('data-dpr', dpr);
-	            docEl.style.fontSize = 100 * (clientWidth * dpr / width) + "px";
-
-	            scale = 1 / dpr;
-	            content = 'width=' + clientWidth * dpr + ',initial-scale=' + scale + ',maximum-scale=' + scale +
-	                ', minimum-scale=' + scale;
-	            break;
-	    }
-	    
-	    metaEl.setAttribute('content', content);
-	},
 	doLoad: function(){
 	    var _this = this;
 	    var arrImg = [
 	    'img/bg1.jpg',
 	    'img/bg2.jpg',
 	    'img/bg3.jpg',
+	    'img/bg4.jpg',
 	    'img/btn.png',
 	    'img/meilixiangcun.png',
 	    'img/txt.png',
 	    'img/audio.png',
-	    'img/loading.png'];
+	    'img/loading.png',
+	    'img/control-icon.png',
+	    'img/mobile-icon.png'];
 	    var total = arrImg.length, index = 0;
 
 	    function loadImage(url, callback){
@@ -59,25 +37,20 @@ var processor = {
 	        if(index < total){
 	            index++;
 	        }
-	        // var num = parseInt(index/total * 100);
-	        // var progress = document.getElementById('progress');
-	        // var percent = progress.firstChild;
-	        // percent.innerHTML = num+' %';
 	        if(index == total){
 	            setTimeout(function(){
 	            	$('#loading').remove();
+	            	
 	            	//判断微信中打开
 	            	var ua = navigator.userAgent.toLowerCase();
 	            	if(ua.match(/MicroMessenger/i)=="micromessenger") {
-	            	    document.addEventListener("WeixinJSBridgeReady", function () {  
-	            	    	_this.initMusic();
-	            	    }, false);
+	            	    $.getScript('js/wx.js');
 	            	} else {
 	            	    _this.initMusic();
 	            	}
 	            	
-	                _this.orientation();
-	            },500)
+	            	_this.orientation();
+	            },200)
 	            clearInterval(timeImage);
 	        }
 	    }
@@ -112,75 +85,59 @@ var processor = {
 			$container = $('#container'),
 			$scene = $('#scene'),
 			$last = $('#last'),
-		    pageH = $scene.height();
-		$container.css({
-		    width: h,
-		    height: w
-		})
-		$last.css({
-			width: h,
-			height: w,
-			left: pageH-h
-		})
-
-		$('#skip').on('click', function(){
-			$scene.css({
-				'transform': 'translate3d('+ -(pageH-h) +'px, 0, 0)'
-			});
-			$last.addClass('active');
-		})
-
-		//开始出现的位置
-		var bird3 = $('.bird3').position().top;
-		var bird4 = $('.bird4').position().top;
-		var bird5 = $('.bird5').position().top;
-		var bird6 = $('.bird6').position().top;
-		var bird7 = $('.bird7').position().top;
-		var bird8 = $('.bird8').position().top;
-		var bird9 = $('.bird9').position().top;
-		var bird10 = $('.bird10').position().top;
-		var bird11 = $('.bird11').position().top;
-		var people1 = $('.people1').position().top;
-		var people2 = $('.people2').position().top;
-		var people3 = $('.people3').position().top;
-		var people4 = $('.people4').position().top;
-		var people5 = $('.people5').position().top;
-
-
-		var startY, distance, translateX;
-		$container.on('touchstart', function(e){
-			var touch = e.touches[0];
-			startY = Number(touch.pageY);
-			translateX = $scene.css('transform').split(',')[0].replace('translate3d(','').replace('px','');
-			if(translateX == 'none'){
-				translateX = 0;
-			}else{
-				translateX = Number(translateX);
+		    pageH = $scene.width();
+		var setW, setH, startY, translateX;
+		if(w < h){
+			setW = h;
+			setH = w;
+		}else{
+			setW = w;
+			setH = h;
+		}
+		var progress = function(dis){
+			var boundary = pageH-setW;
+			if(dis > 0){
+				dis = 0;
 			}
-		})
-		$container.on('touchmove', function(e){
-			e.preventDefault();
-			var touch = e.touches[0];
-			var moveY = Number(touch.pageY);
-			distance = moveY-startY+translateX;
-			console.log(distance)
-			if(distance > 0){
-				distance = 0;
-			}
-			if(distance <= -(pageH-h)){
-				distance = -(pageH-h);
+			if(dis <= -boundary){
+				dis = -boundary;
 				$last.addClass('active');
 			}
+			if(Math.abs(dis) >= boundary){
+				$('#control').addClass('pause');
+			}
 			$scene.css({
-				'transform': 'translate3d('+distance+'px, 0, 0)'
+				// 'transform': 'translate3d('+ dis +'px, 0, 0)'
+				'left': dis
 			});
+			$('#progress .percent').css('width', Math.abs(dis/boundary*100)+'%');
+		}
+		var parallax = function(dis){
+			var absDistance = Math.abs(dis);
 
-			var absDistance = Math.abs(distance);
-			//开始视觉差移动
+			//开始出现的位置
+			var bird3 = $('.bird3').position().top;
+			var bird4 = $('.bird4').position().top;
+			var bird5 = $('.bird5').position().top;
+			var bird6 = $('.bird6').position().top;
+			var bird7 = $('.bird7').position().top;
+			var bird8 = $('.bird8').position().top;
+			var bird9 = $('.bird9').position().top;
+			var bird10 = $('.bird10').position().top;
+			var bird11 = $('.bird11').position().top;
+			var people1 = $('.people1').position().top;
+			var people2 = $('.people2').position().top;
+			var people3 = $('.people3').position().top;
+			var people4 = $('.people4').position().top;
+			var people5 = $('.people5').position().top;
+			var people6 = $('.people6').position().top;
+			var people7 = $('.people7').position().top;
+			var people8 = $('.people8').position().top;
+			var moon = $('.moon').position().top;
+
 			var transX = function(pos){
 				return absDistance-(pos-h);
 			}
-
 			if(absDistance > (bird3-h) && absDistance < bird3){
 				$('.bird3').css({
 					'transform': 'translate3d('+ transX(bird3) +'%, 0, 0)'
@@ -251,6 +208,95 @@ var processor = {
 					'transform': 'translate3d('+ -transX(people5)/15 +'%, 0, 0)'
 				})
 			}
+			if(absDistance > (people6-h) && absDistance < people6){
+				$('.people6').css({
+					'transform': 'translate3d('+ -transX(people6)/10 +'%, 0, 0)'
+				})
+			}
+			if(absDistance > (people7-h) && absDistance < people7){
+				$('.people7').css({
+					'transform': 'translate3d('+ -transX(people7)/10 +'%, 0, 0)'
+				})
+			}
+			if(absDistance > (people8-h) && absDistance < people8){
+				$('.people8').css({
+					'transform': 'translate3d('+ -transX(people8)/10 +'%, 0, 0)'
+				})
+			}
+			if(absDistance > (moon-h) && absDistance < moon){
+				$('.moon').css({
+					'transform': 'translate3d('+ transX(moon) +'%, 0, 0)'
+				})
+			}
+		}
+
+		$container.css({
+		    width: setW,
+		    height: setH
+		})
+		$last.css({
+			width: setW,
+			height: setH,
+			left: pageH-setW
+		})
+
+		//自动播放
+		var timer = null;
+		var autoPlay = function(){
+			// var distance = Number($scene.css('transform').split(',')[4]);
+			var distance = Number($scene.offset().top);
+			timer = setInterval(function(){
+				distance -= 2;
+				progress(distance);
+				parallax(distance);
+			}, 10);
+		}
+		autoPlay();
+
+		//清除自动播放
+		var scenePause = function(){
+			clearInterval(timer);
+			// $scene.css('transition', '');
+			$('#control').addClass('pause');
+		}
+
+		//播放控制
+		$('#control').on('click', function(e){
+			e.stopPropagation();
+			if(!$(this).hasClass('pause')){
+				scenePause();
+			}else{
+				$(this).removeClass('pause');
+				autoPlay();
+			}
+		})
+
+		//跳过
+		$('#skip').on('click', function(e){
+			e.stopPropagation();
+			var distance = -(pageH-setW);
+			$last.addClass('active');
+			progress(distance);
+			scenePause();
+		})
+
+		//滑动播放
+		$container.on('touchstart', function(e){
+			var touch = e.touches[0];
+			startY = Number(touch.pageY);
+			// translateX = Number($scene.css('transform').split(',')[4]);
+			translateX = Number($scene.offset().top);
+		})
+		$container.on('touchmove', function(e){
+			e.preventDefault();
+			scenePause();
+
+			var touch = e.touches[0];
+			var moveY = Number(touch.pageY);
+			var distance = (moveY-startY)*2+translateX;
+			absDistance = Math.abs(distance);
+			progress(distance);
+			parallax(distance);
 		})
 	},
 	initMusic: function(url){
@@ -271,6 +317,5 @@ var processor = {
 }
 
 $(function(){
-	processor.fixViewport('fixed', 640);
 	processor.doLoad();
 })

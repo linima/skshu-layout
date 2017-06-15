@@ -9,6 +9,7 @@ html,
 body {
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -35,13 +36,16 @@ img{
     bottom: 0;
     z-index: 99999;
     background: #d7f3dd;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
 }
-.loading i{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -19px;
-    margin-left: -19px;
+.loading .icon{
     display: block;
     width: 38px;
     height: 38px;
@@ -49,11 +53,24 @@ img{
     animation: rotate 1s linear both infinite;
     -webkit-animation: rotate 1s linear both infinite;
 }
+.loading .mobile{
+    display: block;
+    width: 64px;
+    height: 118px;
+    background: url(../img/mobile-icon.png) no-repeat;
+}
+.loading p{
+    margin: 20px 0;
+    color: #56934d;
+    font-size: 24px;
+}
 .scene{
     position: absolute;
     width: 37640px;
     left: 0;
     right: 0;
+    transform: translate3d(0px, 0px, 0px);
+    -webkit-transform: translate3d(0px, 0px, 0px);
 }
 .bg > div{
     float: left;
@@ -85,7 +102,6 @@ img{
     opacity: 0;
     visibility: hidden;
     width: 100%;
-    /*height: 225px;*/
     height: 0;
     background: url(../img/txt.png) center no-repeat;
     background-size: contain;
@@ -103,7 +119,7 @@ img{
 .last.active .text{
     opacity: 1;
     visibility: visible;
-    height: 225px;
+    height: 153px;
 }
 .last.active .meilixiangcun{
     visibility: hidden;
@@ -209,19 +225,26 @@ img{
     height: 65px;
     background: url(../img/bird11.png);
 }
+.bird12{
+    left: 29052px;
+    top: 320px;
+    width: 149px;
+    height: 154px;
+    background: url(../img/bird12.png);
+}
 .people1{
     left: 5490px;
     top: 0;
     width: 348px;
     height: 640px;
-    background: url(../img/people1.png);   
+    background: url(../img/people1.png);
 }
 .people2{
     left: 8205px;
     top: 280px;
     width: 394px;
     height: 380px;
-    background: url(../img/people2.png);   
+    background: url(../img/people2.png); 
 }
 .people3{
     left: 14590px;
@@ -229,21 +252,111 @@ img{
     top: 210px;
     width: 288px;
     height: 212px;
-    background: url(../img/people3.png);   
+    background: url(../img/people3.png); 
 }
 .people4{
     left: 19800px;
     top: 345px;
     width: 198px;
     height: 294px;
-    background: url(../img/people4.png);   
+    background: url(../img/people4.png);  
 }
 .people5{
     left: 33925px;
     top: 115px;
     width: 730px;
     height: 527px;
-    background: url(../img/people5.png);   
+    background: url(../img/people5.png); 
+}
+.people6{
+    left: 28200px;
+    top: 366px;
+    width: 247px;
+    height: 248px;
+    background: url(../img/people6.png);   
+}
+.people7{
+    left: 25693px;
+    top: 6px;
+    width: 372px;
+    height: 634px;
+    background: url(../img/people7.png);  
+}
+.people8{
+    left: 27390px;
+    top: 305px;
+    width: 169px;
+    height: 335px;
+    background: url(../img/people8.png);  
+}
+.people-arm{
+    top: 92px;
+    left: 2910px;
+}
+.people-arm .body{
+    position: absolute;
+    z-index: 2;
+    top: 80px;
+    width: 163px;
+    height: 455px;
+    background: url(../img/people-arm.png);
+}
+.people-arm .arm{
+    position: absolute;
+    left: 20px;
+    top: 0;
+    width: 89px;
+    height: 192px;
+    background: url(../img/people-arm.png) -163px 0;
+}
+.moon{
+    position: absolute;
+    top: 23px;
+    left: 17401px;
+    width: 59px;
+    height: 54px;
+    background: url(../img/moon.png);
+}
+.star1,
+.star2,
+.star3,
+.star4{
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background: url(../img/star1.png);
+}
+.star1{
+    left: 17969px;
+    top: 34px;
+}
+.star2{    
+    left: 18116px;
+    top: 58px;
+    width: 61px;
+    height: 61px;
+    background: url(../img/star2.png);
+}
+.star3{
+    left: 18241px;
+    top: 180px;
+}
+.star4{
+    top: 34px;
+    left: 18312px;
+}
+.light1,
+.light2{
+    top: 418px;
+    width: 163px;
+    height: 129px;
+    background: url(../img/light.png);
+}
+.light1{
+    left: 15850px;
+}
+.light2{
+    left: 15987px;
 }
 .locktip{
     position: absolute;
@@ -325,7 +438,6 @@ img{
 }
 .audio.on{
     background-position: 0 0;
-    animation: rotate 1.5s linear infinite;
 }
 .skip{
     position: absolute;
@@ -336,6 +448,80 @@ img{
     background: url(../img/skip.png) no-repeat;
     transform: translate3d(0,0,50px);
     -webkit-transform: translate3d(0,0,50px);
+}
+.control{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,.08);
+    border-radius: 100%;    
+    transform: translate3d(0,0,50px);
+    -webkit-transform: translate3d(0,0,50px);
+}
+.control i{
+    margin: 10px auto;
+    display: block;
+    width: 14px;
+    height: 20px;
+    background: url(../img/control-icon.png) 0 -20px;   
+}
+.control.pause i{
+    background-position: 0 0;
+}
+.progress{
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    margin-left: -320px;
+    padding: 0 5px;
+    width: 640px;
+    height: 16px;
+    background: rgba(0,0,0,.04);
+    border-radius: 99px;
+    transform: translate3d(0,0,50px);
+    -webkit-transform: translate3d(0,0,50px);
+}
+.progress .percent{
+    margin-top: 5px;
+    height: 6px;
+    width: 0%;
+    background: rgba(255,255,255,.5);
+}
+.people-arm .arm{
+    transform-origin: right bottom;
+    animation: arm 2s both infinite alternate;
+}
+.light1,.light2{
+    animation: flash 3s both infinite;
+}
+.star1{
+    animation: flash 2s both infinite;
+}
+.star2{
+    animation: flash 3s 1s both infinite;
+}
+.star3{
+    animation: flash 3s .6s both infinite;
+}
+.star4{
+    animation: flash 2s 1.5s both infinite;
+}
+.bird12{
+    animation: jump 2s both infinite alternate;
+}
+@keyframes arm{
+    from { transform: rotate(0); }
+    to { transform: rotate(-30deg); }
+}
+@keyframes flash{
+    from, 50%, to { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+@keyframes jump{
+    from{ transform: translateY(0); }
+    to{ transform: translateY(-60px); }
 }
 @keyframes rotate {
     from { transform: rotate(0); transform-origin: center; }
