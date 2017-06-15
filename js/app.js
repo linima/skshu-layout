@@ -261,17 +261,19 @@ var processor = {
 
 		setTimeout(function(){
 			autoPlay();
+			//播放控制
+			$('#control').on('click', function(e){
+				e.stopPropagation();
+				if(!$(this).hasClass('pause')){
+					scenePause();
+				}else{
+					$(this).removeClass('pause');
+					autoPlay();
+				}
+			})
 		}, 2000);
-		//播放控制
-		$('#control').on('click', function(e){
-			e.stopPropagation();
-			if(!$(this).hasClass('pause')){
-				scenePause();
-			}else{
-				$(this).removeClass('pause');
-				autoPlay();
-			}
-		})
+
+
 
 		//跳过
 		$('#skip').on('click', function(e){
