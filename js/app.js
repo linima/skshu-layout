@@ -94,7 +94,35 @@ var processor = {
 			setW = w;
 			setH = h;
 		}
-		var progress = function(dis){
+		$container.css({
+		    width: setW,
+		    height: setH
+		})
+		$last.css({
+			width: setW,
+			height: setH,
+			left: pageH-setW
+		})
+
+		//自动播放
+		var timer = null;
+		function autoPlay(){
+			// var distance = Number($scene.css('transform').split(',')[4]);
+			var distance = Number($scene.offset().top);
+			timer = setInterval(function(){
+				distance -= 2;
+				progress(distance);
+				parallax(distance);
+			}, 10);
+		}
+
+		//清除自动播放
+		function scenePause(){
+			clearInterval(timer);
+			// $scene.css('transition', '');
+			$('#control').addClass('pause');
+		}
+		function progress(dis){
 			var boundary = pageH-setW;
 			if(dis > 0){
 				dis = 0;
@@ -105,6 +133,7 @@ var processor = {
 			}
 			if(Math.abs(dis) >= boundary){
 				$('#control').addClass('pause');
+				scenePause();
 			}
 			$scene.css({
 				// 'transform': 'translate3d('+ dis +'px, 0, 0)'
@@ -112,7 +141,7 @@ var processor = {
 			});
 			$('#progress .percent').css('width', Math.abs(dis/boundary*100)+'%');
 		}
-		var parallax = function(dis){
+		function parallax(dis){
 			var absDistance = Math.abs(dis);
 
 			//开始出现的位置
@@ -230,36 +259,7 @@ var processor = {
 			}
 		}
 
-		$container.css({
-		    width: setW,
-		    height: setH
-		})
-		$last.css({
-			width: setW,
-			height: setH,
-			left: pageH-setW
-		})
-
-		//自动播放
-		var timer = null;
-		var autoPlay = function(){
-			// var distance = Number($scene.css('transform').split(',')[4]);
-			var distance = Number($scene.offset().top);
-			timer = setInterval(function(){
-				distance -= 2;
-				progress(distance);
-				parallax(distance);
-			}, 10);
-		}
 		autoPlay();
-
-		//清除自动播放
-		var scenePause = function(){
-			clearInterval(timer);
-			// $scene.css('transition', '');
-			$('#control').addClass('pause');
-		}
-
 		//播放控制
 		$('#control').on('click', function(e){
 			e.stopPropagation();
